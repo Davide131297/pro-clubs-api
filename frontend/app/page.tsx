@@ -21,37 +21,37 @@ const endpoints: EndpointDefinition[] = [
   {
     id: "search",
     label: "Club Search",
-    description: "Findet Clubs per Name und uebernimmt automatisch die erste clubId.",
+    description: "Finds clubs by name and automatically uses the first clubId.",
     needsClubId: false,
   },
   {
     id: "info",
     label: "Club Info",
-    description: "Liest Club-Stammdaten für die übernommene clubId.",
+    description: "Reads club profile data for the selected clubId.",
     needsClubId: true,
   },
   {
     id: "overallStats",
     label: "Overall Stats",
-    description: "Liest Gesamtstatistiken für die übernommene clubId.",
+    description: "Reads overall stats for the selected clubId.",
     needsClubId: true,
   },
   {
     id: "playoffAchievements",
     label: "Playoff Achievements",
-    description: "Liest Playoff-Erfolge für die übernommene clubId.",
+    description: "Reads playoff achievements for the selected clubId.",
     needsClubId: true,
   },
   {
     id: "careerStats",
     label: "Member Career Stats",
-    description: "Liest Karriere-Statistiken der Clubmitglieder.",
+    description: "Reads career stats for club members.",
     needsClubId: true,
   },
   {
     id: "matches",
     label: "Matches",
-    description: "Liest Matches für leagueMatch, friendlyMatch oder playoffMatch.",
+    description: "Reads matches for leagueMatch, friendlyMatch, or playoffMatch.",
     needsClubId: true,
   },
 ];
@@ -91,7 +91,7 @@ export default function Home() {
     setStatus(null);
 
     if (!canSubmit) {
-      setError("Die benoetigten Parameter muessen gesetzt sein.");
+      setError("The required parameters must be set.");
       return;
     }
 
@@ -162,12 +162,12 @@ export default function Home() {
             Pro Clubs API Console
           </p>
           <h1 className="max-w-xl text-3xl font-black leading-none tracking-tight text-[var(--foreground)] md:text-4xl">
-            Geschütze API-Routen testen.
+            Test protected API routes.
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--ink-muted)]">
-            Waehle eine Route und sieh die originale EA-Antwort. Suche zuerst
-            nach einem Clubnamen, danach wird die gefundene clubId für weitere
-            Calls übernommen.
+            Choose a route and inspect the original EA response. Search for a
+            club name first, then the discovered clubId is reused for follow-up
+            calls.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-5 grid gap-3">
@@ -194,12 +194,12 @@ export default function Home() {
             <div className="grid gap-3 md:grid-cols-2">
               <label className="grid gap-2">
                 <span className="text-xs font-black uppercase tracking-[0.16em]">
-                  Clubname
+                  Club Name
                 </span>
                 <input
                   value={clubName}
                   onChange={(event) => setClubName(event.target.value)}
-                  placeholder="z.B. Weighters"
+                  placeholder="e.g. Weighters"
                   className="rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm outline-none ring-[var(--accent)] transition focus:ring-2"
                 />
               </label>
@@ -211,7 +211,7 @@ export default function Home() {
                 <input
                   value={clubId}
                   onChange={(event) => setClubId(event.target.value)}
-                  placeholder="Wird nach Search übernommen"
+                  placeholder="Filled after search"
                   className="rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm outline-none ring-[var(--accent)] transition focus:ring-2"
                 />
               </label>
@@ -267,7 +267,7 @@ export default function Home() {
               disabled={!canSubmit || isLoading}
               className="rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-black uppercase tracking-[0.16em] text-white shadow-xl shadow-red-900/20 transition hover:bg-[var(--accent-dark)] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {isLoading ? "Request laeuft..." : "GET ausfuehren"}
+              {isLoading ? "Request running..." : "Run GET"}
             </button>
           </form>
         </div>
@@ -279,7 +279,7 @@ export default function Home() {
                 Response
               </p>
               <p className="mt-1 text-xs text-[#cdbf9f]">
-                Status: {status ?? "noch kein Request"}
+                Status: {status ?? "no request yet"}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -295,7 +295,7 @@ export default function Home() {
                         : "text-[#cdbf9f] hover:text-[#f7eed9]"
                     }`}
                   >
-                    {view === "terminal" ? "Terminal" : "Optisch"}
+                    {view === "terminal" ? "Terminal" : "Visual"}
                   </button>
                 ))}
               </div>
@@ -324,14 +324,14 @@ export default function Home() {
 
           {responseView === "terminal" ? (
             <pre className="min-h-0 flex-1 overflow-auto rounded-xl border border-[#294b3a] bg-[#06100c] p-3 text-xs leading-5 text-[#dfe9d2]">
-              {response ? JSON.stringify(response, null, 2) : "Noch keine Response."}
+              {response ? JSON.stringify(response, null, 2) : "No response yet."}
             </pre>
           ) : (
             <div className="min-h-0 flex-1 overflow-auto rounded-xl border border-[#294b3a] bg-[#06100c] p-3 text-xs leading-5 text-[#dfe9d2]">
               {response ? (
                 <VisualResponse data={response} />
               ) : (
-                <p className="text-[#cdbf9f]">Noch keine Response.</p>
+                <p className="text-[#cdbf9f]">No response yet.</p>
               )}
             </div>
           )}
@@ -367,11 +367,11 @@ function VisualResponse({ data, depth = 0 }: { data: unknown; depth?: number }) 
             Array
           </span>
           <span className="rounded-full bg-[#f7eed9] px-2 py-0.5 font-black text-[#0d1d16]">
-            {data.length} Einträge
+            {data.length} entries
           </span>
         </div>
         {data.length === 0 ? (
-          <p className="text-[#cdbf9f]">Keine Einträge.</p>
+          <p className="text-[#cdbf9f]">No entries.</p>
         ) : (
           data.map((item, index) => (
             <details
@@ -380,7 +380,7 @@ function VisualResponse({ data, depth = 0 }: { data: unknown; depth?: number }) 
               className="min-w-0 overflow-hidden rounded-lg border border-[#294b3a] bg-[#0a1812]"
             >
               <summary className="cursor-pointer list-none px-3 py-2 text-[0.68rem] font-black uppercase tracking-[0.14em] text-[#f5c16c]">
-                Eintrag {index + 1}
+                Entry {index + 1}
                 <span className="ml-2 font-normal normal-case tracking-normal text-[#cdbf9f]">
                   {describeValue(item)}
                 </span>
@@ -478,11 +478,11 @@ function formatPrimitivePreview(value: unknown): string {
 
 function describeValue(value: unknown): string {
   if (Array.isArray(value)) {
-    return `${value.length} Einträge`;
+    return `${value.length} entries`;
   }
 
   if (value && typeof value === "object") {
-    return `${Object.keys(value as Record<string, unknown>).length} Felder`;
+    return `${Object.keys(value as Record<string, unknown>).length} fields`;
   }
 
   return formatPrimitivePreview(value);
