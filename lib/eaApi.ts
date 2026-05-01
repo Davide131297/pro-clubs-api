@@ -1,4 +1,4 @@
-import { EA_BASE_URL } from "./config.js";
+import { EA_BASE_URL } from "./config";
 
 type QueryValue = string | number | boolean | undefined | null;
 
@@ -26,9 +26,10 @@ export async function fetchEaJson(
   }
 
   const response = await fetch(url, {
+    cache: "no-store",
     headers: {
       accept: "application/json",
-      "user-agent": "pro-clubs-api/1.0",
+      "user-agent": "pro-clubs-api/2.0",
     },
   });
 

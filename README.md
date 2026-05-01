@@ -1,23 +1,37 @@
-# Pro Clubs API
+# Pro Clubs API Console
 
-Node.js API backend with TypeScript that proxies selected EA FC Pro Clubs endpoints and returns the original EA response structure unchanged.
+Next.js 16 app with TypeScript and Tailwind CSS. It provides protected App Router API routes for selected EA FC Pro Clubs endpoints and a browser-based test console for running them.
 
 ## Setup
 
 ```bash
 npm install
+cp .env.example .env
 npm run dev
 ```
 
-Default host and port: `127.0.0.1:3000`. Override them with `HOST` and `PORT`.
+Set `API_BEARER_TOKEN` in `.env`. Every API route requires:
+
+```http
+Authorization: Bearer <API_BEARER_TOKEN>
+```
+
+Open the frontend at:
+
+```http
+http://localhost:3000
+```
+
+Search for a club by name first. The UI automatically takes the first returned `clubId` and uses it for the other API calls.
 
 ## Routes
 
 All routes default to `platform=common-gen5`. You can override it with a `platform` query parameter.
 
-Required values like `clubName`, `clubId`, `clubIds`, and `matchType` must be provided by the API caller in the GET request.
+Required values like `clubName`, `clubId`, `clubIds`, and `matchType` must be provided by the API caller in the GET request. Responses are passed through from EA unchanged.
 
 ```http
+GET /api/health
 GET /api/clubs/search?clubName={clubName}
 GET /api/clubs/info?clubIds={clubIds}
 GET /api/clubs/{clubId}/info
