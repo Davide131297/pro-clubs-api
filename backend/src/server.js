@@ -3,6 +3,9 @@ import cors from "cors";
 import helmet from "helmet";
 import { DEFAULT_PLATFORM, MATCH_TYPES } from "./config.js";
 import { EaApiError, fetchEaJson } from "./eaApi.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const port = Number(process.env.PORT ?? 8080);
