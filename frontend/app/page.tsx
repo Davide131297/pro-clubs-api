@@ -59,7 +59,7 @@ const endpoints: EndpointDefinition[] = [
 const matchTypes = ["leagueMatch", "friendlyMatch", "playoffMatch"] as const;
 const responseViews = ["terminal", "visual"] as const;
 const API_BASE_URL = normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL);
-const AUTH_TOKEN = process.env.NEXT_PUBLIC_ENV_AUTH_TOKEN ?? "";
+const AUTH_TOKEN = process.env.NEXT_PUBLIC_AUTH_TOKEN ?? "";
 
 export default function Home() {
   const [platform, setPlatform] = useState("common-gen5");
