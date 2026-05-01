@@ -199,7 +199,7 @@ export default function Home() {
                 <input
                   value={clubName}
                   onChange={(event) => setClubName(event.target.value)}
-                  placeholder="e.g. Weighters"
+                  placeholder="e.g. XYZ FC"
                   className="rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm outline-none ring-[var(--accent)] transition focus:ring-2"
                 />
               </label>
