@@ -2,6 +2,10 @@ import { EA_BASE_URL } from "./config";
 
 type QueryValue = string | number | boolean | undefined | null;
 
+const DEFAULT_USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+  "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+
 export class EaApiError extends Error {
   constructor(
     message: string,
@@ -28,8 +32,16 @@ export async function fetchEaJson(
   const response = await fetch(url, {
     cache: "no-store",
     headers: {
-      accept: "application/json",
-      "user-agent": "pro-clubs-api/2.0",
+      accept: "application/json, text/plain, */*",
+      "accept-language": "en-US,en;q=0.9",
+      "cache-control": "no-cache",
+      origin: "https://www.ea.com",
+      pragma: "no-cache",
+      referer: "https://www.ea.com/",
+      "sec-fetch-dest": "empty",
+      "sec-fetch-mode": "cors",
+      "sec-fetch-site": "same-site",
+      "user-agent": process.env.EA_USER_AGENT ?? DEFAULT_USER_AGENT,
     },
   });
 

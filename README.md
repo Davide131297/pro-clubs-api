@@ -16,6 +16,18 @@ Set `API_BEARER_TOKEN` in `.env`. Every API route requires:
 Authorization: Bearer <API_BEARER_TOKEN>
 ```
 
+Optional values:
+
+```env
+EA_BASE_URL=https://proclubs.ea.com/api/fc
+EA_USER_AGENT=Mozilla/5.0 ...
+```
+
+`EA_BASE_URL` can be pointed at your own upstream proxy if EA blocks the
+hosting provider's outbound IPs. This can happen on Vercel because the EA
+endpoint is protected by Akamai and may return `403 Access Denied` before the
+request reaches the actual API.
+
 Open the frontend at:
 
 ```http
