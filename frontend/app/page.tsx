@@ -58,6 +58,7 @@ const endpoints: EndpointDefinition[] = [
 
 const matchTypes = ["leagueMatch", "friendlyMatch", "playoffMatch"] as const;
 const responseViews = ["terminal", "visual"] as const;
+const API_BASE_URL = normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL);
 
 export default function Home() {
   const [token, setToken] = useState("");
@@ -137,20 +138,20 @@ export default function Home() {
     switch (selectedEndpoint) {
       case "search":
         params.set("clubName", clubName.trim());
-        return `/api/clubs/search?${params.toString()}`;
+        return `${API_BASE_URL}/api/clubs/search?${params.toString()}`;
       case "info":
-        return `/api/clubs/${encodeURIComponent(clubId.trim())}/info?${params.toString()}`;
+        return `${API_BASE_URL}/api/clubs/${encodeURIComponent(clubId.trim())}/info?${params.toString()}`;
       case "overallStats":
-        return `/api/clubs/${encodeURIComponent(clubId.trim())}/overall-stats?${params.toString()}`;
+        return `${API_BASE_URL}/api/clubs/${encodeURIComponent(clubId.trim())}/overall-stats?${params.toString()}`;
       case "playoffAchievements":
-        return `/api/clubs/${encodeURIComponent(clubId.trim())}/playoff-achievements?${params.toString()}`;
+        return `${API_BASE_URL}/api/clubs/${encodeURIComponent(clubId.trim())}/playoff-achievements?${params.toString()}`;
       case "careerStats":
-        return `/api/clubs/${encodeURIComponent(clubId.trim())}/members/career-stats?${params.toString()}`;
+        return `${API_BASE_URL}/api/clubs/${encodeURIComponent(clubId.trim())}/members/career-stats?${params.toString()}`;
       case "matches":
         if (maxResultCount.trim()) {
           params.set("maxResultCount", maxResultCount.trim());
         }
-        return `/api/clubs/${encodeURIComponent(clubId.trim())}/matches/${matchType}?${params.toString()}`;
+        return `${API_BASE_URL}/api/clubs/${encodeURIComponent(clubId.trim())}/matches/${matchType}?${params.toString()}`;
     }
   }
 
@@ -352,6 +353,10 @@ export default function Home() {
       </section>
     </main>
   );
+}
+
+function normalizeApiBaseUrl(value: string | undefined): string {
+  return value?.replace(/\/+$/, "") ?? "";
 }
 
 function extractFirstClubId(data: unknown): string | undefined {

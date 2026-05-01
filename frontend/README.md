@@ -21,12 +21,17 @@ Optional values:
 ```env
 EA_BASE_URL=https://proclubs.ea.com/api/fc
 EA_USER_AGENT=Mozilla/5.0 ...
+NEXT_PUBLIC_API_BASE_URL=https://pro-clubs-api-jypu.onrender.com
 ```
 
 `EA_BASE_URL` can be pointed at your own upstream proxy if EA blocks the
 hosting provider's outbound IPs. This can happen on Vercel because the EA
 endpoint is protected by Akamai and may return `403 Access Denied` before the
 request reaches the actual API.
+
+`NEXT_PUBLIC_API_BASE_URL` points the browser UI at an external backend. Leave
+it empty for local Next.js API routes, or set it to the Render backend URL in
+production.
 
 Open the frontend at:
 
