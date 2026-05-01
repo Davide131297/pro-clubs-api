@@ -59,9 +59,9 @@ const endpoints: EndpointDefinition[] = [
 const matchTypes = ["leagueMatch", "friendlyMatch", "playoffMatch"] as const;
 const responseViews = ["terminal", "visual"] as const;
 const API_BASE_URL = normalizeApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL);
+const AUTH_TOKEN = process.env.NEXT_PUBLIC_AUTH_TOKEN ?? "";
 
 export default function Home() {
-  const [token, setToken] = useState("");
   const [platform, setPlatform] = useState("common-gen5");
   const [clubName, setClubName] = useState("");
   const [clubId, setClubId] = useState("");
@@ -81,7 +81,6 @@ export default function Home() {
   );
 
   const canSubmit =
-    Boolean(token.trim()) &&
     (selectedEndpoint !== "search" || Boolean(clubName.trim())) &&
     (!endpoint.needsClubId || Boolean(clubId.trim()));
 
@@ -92,7 +91,7 @@ export default function Home() {
     setStatus(null);
 
     if (!canSubmit) {
-      setError("Token und die benoetigten Parameter muessen gesetzt sein.");
+      setError("Die benoetigten Parameter muessen gesetzt sein.");
       return;
     }
 
@@ -103,7 +102,7 @@ export default function Home() {
     try {
       const result = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${token.trim()}`,
+          Authorization: `Bearer ${AUTH_TOKEN}`,
         },
       });
       const data = await result.json();
@@ -166,25 +165,12 @@ export default function Home() {
             Geschütze API-Routen testen.
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--ink-muted)]">
-            Waehle eine Route, sende den Bearer Token mit und sieh die originale
-            EA-Antwort. Suche zuerst nach einem Clubnamen, danach wird die
-            gefundene clubId für weitere Calls übernommen.
+            Waehle eine Route und sieh die originale EA-Antwort. Suche zuerst
+            nach einem Clubnamen, danach wird die gefundene clubId für weitere
+            Calls übernommen.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-5 grid gap-3">
-            <label className="grid gap-2">
-              <span className="text-xs font-black uppercase tracking-[0.16em]">
-                Bearer Token
-              </span>
-              <input
-                value={token}
-                onChange={(event) => setToken(event.target.value)}
-                placeholder="API_BEARER_TOKEN"
-                type="password"
-                className="rounded-xl border border-[var(--line)] bg-white px-3 py-2 text-sm outline-none ring-[var(--accent)] transition focus:ring-2"
-              />
-            </label>
-
             <label className="grid gap-2">
               <span className="text-xs font-black uppercase tracking-[0.16em]">
                 API Route
