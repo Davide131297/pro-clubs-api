@@ -141,6 +141,21 @@ app.get(
   }),
 );
 
+app.get(
+  "/api/custom",
+  protectedJson(async (req) => {
+    const path = requiredQuery(req, "path");
+
+    // Forward all remaining query params (except "path") directly to the EA API
+    const { path: _omit, ...rest } = req.query;
+    const forwardedParams = Object.fromEntries(
+      Object.entries(rest).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v]),
+    );
+
+    return fetchEaJson(path, forwardedParams);
+  }),
+);
+
 app.use((req, res) => {
   res.status(404).json({ error: "Not found" });
 });
